@@ -1,0 +1,16 @@
+{
+  "name": "Controls.CGridControl",
+  "version": "0.0.0",
+  "homepage": "https://github.com/controlsts/Controls.CGridControl",
+  "authors": [
+    "swcho <sungwoo.cho.dev@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
