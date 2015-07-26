@@ -1,3 +1,7 @@
+body #idStatus {
+  width: 600px;
+  height: 40px;
+}
 body #idRoot {
   width: 600px;
   height: 250px;

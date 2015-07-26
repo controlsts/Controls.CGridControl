@@ -12,38 +12,48 @@ module gApp{
         });
     }
 
-    var el = document.createElement("div");
-    document.body.appendChild(el);
+    var root = Controls.LayoutGroupControl({
+        el: document.body,
+        controls: [
+            Controls.LayoutControl( {
+                id: 'idStatus',
+                itemDrawers: [
+                    function(aElement: HTMLElement, aIndex: number): Controls.TFocusInfo {
+                        aElement.innerText = 'Please use navigation key (up, down, left, right)';
+                        return Controls.TFocusInfo.KFocusNone
+                    }
+                ]
+            }),
+            Controls.GridControl({
+                id: 'idRoot',
+                maxColCount: 6,
+                itemWidth: 100,
+                itemHeight: 100,
+                animation: true,
 
-    var grid = Controls.GridControl({
-        el: el,
-        id: 'idRoot',
-        maxColCount: 6,
-        itemWidth: 100,
-        itemHeight: 100,
-        animation: true,
+                data: data,
+                dataDrawer: function(aKey: any, aItem: any, aEl: HTMLElement): Controls.TFocusInfo {
+                    Controls.Item({
+                        el: aEl,
+                        children: [{
+                            className: 'title',
+                            innerText: aItem.text
+                        }, {
+                            className: 'desc',
+                            innerText: aItem.longText
+                        }]
+                    });
+                    return Controls.TFocusInfo.KFocusAble;
+                },
 
-        data: data,
-        dataDrawer: function(aKey: any, aItem: any, aEl: HTMLElement): Controls.TFocusInfo {
-            Controls.Item({
-                el: aEl,
-                children: [{
-                    className: 'title',
-                    innerText: aItem.text
-                }, {
-                    className: 'desc',
-                    innerText: aItem.longText
-                }]
-            });
-            return Controls.TFocusInfo.KFocusAble;
-        },
-
-        onFocusChanged: function (aOld: HTMLElement, aNew: HTMLElement) {
-        },
-        onItemSelected: function (aControl: Controls.CControl, aIndex: number, aEl: HTMLElement) {
-            alert('index : ' + aIndex);
-        }
+                onFocusChanged: function (aOld: HTMLElement, aNew: HTMLElement) {
+                },
+                onItemSelected: function (aControl: Controls.CControl, aIndex: number, aEl: HTMLElement) {
+                    alert('index : ' + aIndex);
+                }
+            })
+        ]
     });
 
-    Controls.runRoot(grid);
+    Controls.runRoot(root);
 }
