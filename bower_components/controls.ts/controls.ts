@@ -233,7 +233,7 @@ module Controls {
         aFocusable: HTMLElement[],
         aPrevFocusInfo?: TPrevFocusInfo,
         aPrevKeyStr?: string
-        ) {
+    ) {
         var i, len, el: HTMLElement, mapItem: TKeyMapItem, prevMapItem: TKeyMapItem = null;
         var startIndex: number = 0;
         for (i = 0, len = aFocusable.length; i < len; i++) {
@@ -278,7 +278,7 @@ module Controls {
         aFocusable: HTMLElement[],
         aPrevFocusInfo?: TPrevFocusInfo,
         aPrevKeyStr?: string
-        ) {
+    ) {
         var i, j, len, el: HTMLElement, mapItem: TKeyMapItem, prevMapItem: TKeyMapItem = null;
         var startIndex: number = 0;
         for (i = 0, len = aFocusable.length; i < len; i++) {
@@ -323,7 +323,7 @@ module Controls {
         aFocusable: HTMLElement[],
         aPrevFocusInfo?: TPrevFocusInfo,
         aPrevKeyStr?: string
-        ) {
+    ) {
         var i, j, len;
         var el: HTMLElement;
         var mapItem: TKeyMapItem;
@@ -376,7 +376,7 @@ module Controls {
         aFocusable: HTMLElement[],
         aPrevFocusInfo?: TPrevFocusInfo,
         aPrevKeyStr?: string
-        ) {
+    ) {
         var i, j, cnt: number = aFocusable.length, el: HTMLElement;
         var getPos = function (aElement: HTMLElement) {
             var top = aElement.offsetTop;
@@ -2477,33 +2477,33 @@ module Controls {
         }
 
         /*protected*/ _doUpdateItems(aKey: any[], aItem: any[]): boolean {
-            return true;
-        }
+        return true;
+    }
 
         /*protected*/ _doInsertItems(aKey: any, aItems: TDrawingData[]): void {
-            var i, len;
-            for (i = 0, len = aItems.length; i < len; i += 1) {
-                this._handleNewItem(aItems[i], true);
-            }
+        var i, len;
+        for (i = 0, len = aItems.length; i < len; i += 1) {
+            this._handleNewItem(aItems[i], true);
         }
+    }
 
         /*protected*/ _doRemoveItems(aKeys: any[]) {
-            var i, iLen, k, item: TDrawingData, j, jLen, rowList: TDrawingData[];
-            for (i = 0, iLen = aKeys.length; i < iLen; i += 1) {
-                k = aKeys[i];
-                item = this._drawingDataCache[k];
-                delete this._drawingDataCache[k];
-                if (item.rowIndex !== undefined) {
-                    rowList = this._drawingDataByRow[item.rowIndex];
-                    for (j = 0, jLen = rowList.length; j < jLen; j += 1) {
-                        if (rowList[j].key == k) {
-                            rowList.slice(j, 1);
-                            break;
-                        }
+        var i, iLen, k, item: TDrawingData, j, jLen, rowList: TDrawingData[];
+        for (i = 0, iLen = aKeys.length; i < iLen; i += 1) {
+            k = aKeys[i];
+            item = this._drawingDataCache[k];
+            delete this._drawingDataCache[k];
+            if (item.rowIndex !== undefined) {
+                rowList = this._drawingDataByRow[item.rowIndex];
+                for (j = 0, jLen = rowList.length; j < jLen; j += 1) {
+                    if (rowList[j].key == k) {
+                        rowList.slice(j, 1);
+                        break;
                     }
                 }
             }
         }
+    }
     }
 
     export interface FRowIndexChanged {
@@ -4140,19 +4140,19 @@ module Controls {
             return itemEl;
         }
         /*protected*/ _doDraw(aRect: TRect, aDrawParam: { [key: string]: any; }): HTMLElement[] {
-            var ret: HTMLElement[];
-            this.setTransition(false);
-            if (this._dataChanged) {
-                if (this.getOrientation() == TParamOrientation.EHorizontal) {
-                    this._keyMapBuilder = KBuilderLeftRight;
-                } else {
-                    this._keyMapBuilder = KBuilderTopDown;
-                }
-                this._doDrawItems();
+        var ret: HTMLElement[];
+        this.setTransition(false);
+        if (this._dataChanged) {
+            if (this.getOrientation() == TParamOrientation.EHorizontal) {
+                this._keyMapBuilder = KBuilderLeftRight;
+            } else {
+                this._keyMapBuilder = KBuilderTopDown;
             }
-            ret = [this._anchorEl];
-            return ret;
+            this._doDrawItems();
         }
+        ret = [this._anchorEl];
+        return ret;
+    }
         private _doDrawItems(): HTMLElement {
             var align: TParamOrientation = this.getOrientation();
             var menuLen: number = this._cirMenuItems.length();
@@ -4895,6 +4895,261 @@ module Controls {
             ]);
         }
         return focusInfo;
+    }
+
+    export interface TControl {
+        el?: HTMLElement;
+        id?: string;
+        width?: number;
+        height?: number;
+        orientation?: TParamOrientation;
+        padding?: number;
+        margins?: number[];
+        childHAlign?: Controls.TParamHAlign;
+        childVAlign?: Controls.TParamVAlign;
+        itemWidth?: number;
+        itemHeight?: number;
+        onItemSelected?: FItemSelected;
+        onFocusChanged?: FFocusChanged;
+        onFocusGained?: FFocusGained;
+        onFocusLost?: FFocusLost;
+    }
+
+    function fillControlParam(aControl: CControl, aParam: TControl) {
+        if (aParam.id) {
+            aControl.setId(aParam.id);
+        }
+
+        if (aParam.width) {
+            aControl.getElement().style.width = aParam.width + 'px';
+        }
+
+        if (aParam.height) {
+            aControl.getElement().style.height = aParam.height + 'px';
+        }
+
+        if (aParam.orientation) {
+            aControl.setOrientation(aParam.orientation);
+        }
+
+        if (aParam.padding) {
+            aControl.setPadding(aParam.padding);
+        }
+
+        if (aParam.margins) {
+            aControl.setMargins(aParam.margins);
+        }
+
+        if (aParam.childHAlign) {
+            aControl.setChildHAlign(aParam.childHAlign);
+        }
+
+        if (aParam.childVAlign) {
+            aControl.setChildVAlign(aParam.childVAlign);
+        }
+
+        if (aParam.itemWidth) {
+            aControl.setItemWidth(aParam.itemWidth);
+        }
+
+        if (aParam.itemHeight) {
+            aControl.setItemHeight(aParam.itemHeight);
+        }
+
+        if (aParam.onItemSelected) {
+            aControl.connectItemSelected(aParam, 'onItemSelected', aParam.onItemSelected);
+        }
+
+        if (aParam.onFocusChanged) {
+            aControl.connectFocusChanged(aParam, 'onFocusChanged', aParam.onFocusChanged);
+        }
+    }
+
+    export interface TLayoutControl extends TControl {
+        itemDrawers?: FItemDrawer[];
+    }
+
+    export function LayoutControl(aParam: TLayoutControl): CLayoutControl {
+        var layoutControl = new CLayoutControl(aParam.el || null);
+        fillControlParam(layoutControl, aParam);
+        layoutControl.setItemDrawers(aParam.itemDrawers || []);
+        return layoutControl;
+    }
+
+    export interface TListControl extends TControl {
+        data: any[];
+        dataDrawer: FDataDrawer;
+        onFocusedDataItemChanged?: FFocusedDataItemChanged;
+    }
+
+    export function ListControl(aParam: TListControl): CListControl {
+        var list: Controls.CListControl;
+        list = new Controls.CListControl(null);
+        fillControlParam(list, aParam);
+
+        if (aParam.data) {
+            list.setListData(aParam.data);
+        }
+
+        if (aParam.dataDrawer) {
+            list.setDataDrawer(aParam.dataDrawer);
+        }
+
+        if (aParam.onFocusedDataItemChanged) {
+            list.connectFocusedDataItemChanged(aParam, 'onFocusedDataItemChanged', aParam.onFocusedDataItemChanged);
+        }
+
+        list.setAnimation(true);
+        list.setScrollScheme(Controls.TParamScrollScheme.EByFixed);
+        list.setRedrawAfterOperation(true);
+        return list;
+    }
+
+    export interface TGridControl extends TControl {
+        maxColCount: number;
+        animation?: boolean;
+
+        data: any[];
+        dataDrawer: FDataDrawer;
+    }
+
+    export function GridControl(aParam: TGridControl): CGridControl {
+        var gridControl = new CGridControl(aParam.el || null);
+        fillControlParam(gridControl, aParam);
+
+        if (aParam.maxColCount) {
+            gridControl.setMaxColCount(aParam.maxColCount);
+        }
+
+        if (aParam.animation) {
+            gridControl.setAnimation(aParam.animation);
+        }
+
+        if (aParam.data) {
+            gridControl.setListData(aParam.data);
+        }
+
+        if (aParam.dataDrawer) {
+            gridControl.setDataDrawer(aParam.dataDrawer);
+        }
+
+        return gridControl;
+    }
+
+    export interface TCarouselControl extends TControl {
+        data: any[];
+        dataDrawer: FCarouselDataDrawer;
+        anchorDrawer?: FCarouselAnchorDrawer;
+        viewCount: number;
+        anchorIndex: number;
+        itemWidth: number;
+        itemHeight: number;
+        maxKeyQueueCount?: number;
+        animation?: boolean;
+        transparentAnchor?: boolean;
+        drawEffect?: string;
+        onStartToChange?: FCarouselStartToChange;
+    }
+
+    export function CarouselControl(aParam: TCarouselControl): CCarouselControl {
+        var carousel = new Controls.CCarouselControl(aParam.el || null);
+        fillControlParam(carousel, aParam);
+        carousel.setData(aParam.data);
+        carousel.setViewCount(aParam.viewCount);
+        carousel.setAnchorIndex(aParam.anchorIndex);
+        carousel.setDataDrawer(aParam.dataDrawer);
+        if (aParam.onStartToChange) {
+            carousel.connectStartToChange(aParam, "onStartToChange", aParam.onStartToChange);
+        }
+        if (aParam.maxKeyQueueCount) {
+            carousel.setMaxKeyQueueCount(aParam.maxKeyQueueCount);
+        }
+        if (aParam.animation) {
+            carousel.setAnimation(aParam.animation);
+        }
+        if (aParam.transparentAnchor) {
+            carousel.setTransparentAnchor(aParam.transparentAnchor);
+        }
+        if (aParam.drawEffect) {
+            carousel.setDrawEfect(aParam.drawEffect);
+        }
+        if (aParam.anchorDrawer) {
+            carousel.setAnchorDrawer(aParam.anchorDrawer);
+        }
+        return carousel;
+    }
+
+    export interface TLayoutGroupControl extends TControl {
+        controls: CControl[];
+
+        onChildFocusChanged?: FChildFocusChanged;
+    }
+
+    export function LayoutGroupControl(aParam: TLayoutGroupControl): CLayoutGroupControl {
+        var layoutGroupControl = new Controls.CLayoutGroupControl(aParam.el || null);
+        fillControlParam(layoutGroupControl, aParam);
+        if (aParam.controls) {
+            layoutGroupControl.setOwnedChildControls(aParam.controls);
+        }
+
+        if (aParam.onChildFocusChanged) {
+            layoutGroupControl.connectChildFocusChanged(aParam, 'onChildFocusChanged', aParam.onChildFocusChanged);
+        }
+        return layoutGroupControl;
+    }
+
+    export function runRoot(aControl: CControl) {
+        aControl.draw();
+        aControl.setActiveFocus();
+
+        document.body.addEventListener('keydown', function (e) {
+            var keyStr = e['keyIdentifier'];
+            var handled = aControl.doKey(keyStr);
+            console.log(handled);
+
+            var skip = {
+                'Up': true,
+                'Down': true,
+                'Left': true,
+                'Right': true
+            };
+
+            if (skip[keyStr]) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        });
+    }
+
+    export interface TItem {
+        el?: HTMLElement;
+        tagName?: string;
+        className?: string;
+        innerText?: string;
+        backgroundColor?: string;
+        children?: TItem[];
+    }
+
+    export function Item(aParam: TItem): HTMLElement {
+        var el = aParam.el || document.createElement(aParam.tagName || 'div');
+
+        if (aParam.className) {
+            el.classList.add(aParam.className);
+        }
+        if (aParam.innerText) {
+            el.innerText = aParam.innerText;
+        }
+        if (aParam.backgroundColor) {
+            el.style.backgroundColor = aParam.backgroundColor;
+        }
+
+        if (aParam.children) {
+            aParam.children.forEach(function(child) {
+                el.appendChild(Item(child));
+            });
+        }
+
+        return el;
     }
 
 }
